@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bot, MessageSquare, Zap, Clock, ArrowRight, Github, Twitter } from 'lucide-react';
+import axios from "axios";
 
 function App() {
   const [email, setEmail] = useState('');
@@ -8,9 +9,11 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setEmail('');
-    setName('');
+    axios.get(`https://pinetech.org/api/waitlist?email=${email}`).then(() => {
+      setSubmitted(true);
+      setEmail('');
+      setName('');
+    })
   };
 
   const features = [
@@ -68,10 +71,10 @@ function App() {
             </div>
           </div>
           <div className="flex flex-col items-center space-y-4">
-            <button className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 flex items-center mx-auto">
+            <a href="#join" className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 flex items-center mx-auto">
               Join the Waitlist
               <ArrowRight className="ml-2 w-5 h-5" />
-            </button>
+            </a>
             <p className="text-gray-400">Be the first to know when we launch</p>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               <Clock className="w-4 h-4" />
@@ -137,18 +140,10 @@ function App() {
       </div>
 
       {/* CTA Section */}
-      <div className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-900/50 backdrop-blur-sm">
+      <div className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-900/50 backdrop-blur-sm" id="join">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Ready to Transform Your Discord Server?</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your Name"
-              className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              required
-            />
             <input
               type="email"
               value={email}
@@ -158,7 +153,7 @@ function App() {
               required
             />
             <button
-              type="submit"
+                type="submit"
               className="w-full px-8 py-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-lg font-semibold transition-all"
             >
               Join the Waitlist
@@ -174,14 +169,8 @@ function App() {
       <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex justify-center space-x-6 mb-8">
-            <a href="#" className="text-gray-400 hover:text-white">
+            <a href="https://x.com/roobengabriel" className="text-gray-400 hover:text-white">
               <Twitter className="w-6 h-6" />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white">
-              <Github className="w-6 h-6" />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white">
-              {/* <DiscordIcon className="w-6 h-6" /> */}
             </a>
           </div>
           <p className="text-gray-400">© 2025 AI Discord FAQ | All Rights Reserved</p>
